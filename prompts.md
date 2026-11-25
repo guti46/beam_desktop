@@ -6,3 +6,4 @@
 - Added Save/Open to the spec and File menu. Tried both commands in Tkinter with a non-default design and tested malformed-file handling. All 103 validation comparisons still passed.
 - Added CSV export to the spec and app. Invoked the Export CSV button, checked both sides of a point-load shear jump, and opened Case 1 in Excel to confirm numeric values and four columns. All 103 comparisons passed again.
 - Added the calculation PDF to the spec and app. Tried the export in Tkinter and visually reviewed rendered sheets for Case 1 and a design with 20 loads. All 103 comparisons passed again.
+- Wrote the README and dependency list and prepared the submission ZIP from the committed project.
