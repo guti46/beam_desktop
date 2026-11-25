@@ -2,7 +2,7 @@
 # BeamCheck Pro — Beam Designer
 
 ## Purpose
-Create a simple but professional beam design calculator for construction management and engineering students. The app allows users to choose a beam, apply loads, and see how the beam reacts. It calculates shear, bending moment, and deflection while checking whether the beam can safely handle the loads.
+Create a Python desktop beam design calculator for construction management and engineering students. The app allows users to choose a beam, apply loads, and see how the beam reacts. It calculates shear, bending moment, and deflection while checking whether the beam can safely handle the loads.
 
 The goal is to make beam calculations easier to understand by showing the math and diagrams together.
 
@@ -238,13 +238,7 @@ On a computer, use a two-column layout:
 - Safety results
 - Recommended beam
 
-On a phone, stack the content in this order:
-1. Beam controls
-2. Beam drawing
-3. Safety results and recommendation
-4. Shear, moment, and deflection diagrams
-
-Stack the three diagrams vertically at full width. Resize them to fit the screen without horizontal scrolling while keeping axis labels and values readable.
+Use independently scrollable desktop panels so crowded load lists and diagrams remain accessible.
 
 ### Starting Example
 When the app opens, automatically load this example:
@@ -256,7 +250,7 @@ When the app opens, automatically load this example:
 - Load applied across the entire beam
 - Deflection limit L/360
 
-Load the starting example and calculate its beam drawing, diagrams, and safety results immediately. On a phone, users may need to scroll to see all diagrams and results.
+Load the starting example and calculate its beam drawing, diagrams, and safety results immediately. Users can scroll through the plots and results.
 
 Every input should have a clear label with its units.
 
@@ -412,6 +406,8 @@ Expected results:
 - No listed steel beam passes; show the no-passing message and disable Apply Recommendation.
 
 ## Out of Scope
+Saving designs is out of scope for the base app.
+
 The app will not calculate:
 - Beam self-weight
 - Shear stress or shear-capacity checks; it only calculates shear force and displays the shear diagram
@@ -424,11 +420,7 @@ The app will not calculate:
 This tool is for learning and preliminary calculations only; it does not provide final structural design, code compliance, or certified engineering approval.
 
 ## Build Requirements
-- Build the app as a single `index.html` file.
-- Use HTML, CSS, and JavaScript.
-- No complicated build tools.
-- External libraries may be loaded from a CDN.
-- Keep calculations in separate, clearly named JavaScript functions.
-- The app must work in a normal web browser.
-- Follow the project organization rules in `AGENTS.md`.
-- Record agent requests and changes in `prompts.md`.
+- Run locally with Python, Tkinter, NumPy, and Matplotlib.
+- Start the app with `python app.py`. Keep calculations separately callable for validation.
+- Use the copied `index.html` as the reference for behavior and keep its original contents.
+- Record each stage and its results in `prompts.md` and commit each stage.
