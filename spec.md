@@ -406,7 +406,7 @@ Expected results:
 - No listed steel beam passes; show the no-passing message and disable Apply Recommendation.
 
 ## Out of Scope
-Saving designs is out of scope for the base app.
+The File menu provides Save and Open for a local JSON design. Store the support, span, material, section, deflection limit, point loads, and uniform loads. Recalculate on open and leave the current design in place if an invalid file is selected.
 
 The app will not calculate:
 - Beam self-weight

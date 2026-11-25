@@ -1,13 +1,14 @@
 """BeamCheck Pro desktop interface."""
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import filedialog, messagebox, ttk
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
 
 from beam import Analysis, CANTILEVER, Design, SECTIONS, SIMPLE
+from design_io import open_design, save_design
 
 
 NAVY = "#173655"
@@ -111,6 +112,12 @@ class BeamApp:
         root.title("BeamCheck Pro")
         root.geometry("1180x850")
         root.minsize(880, 580)
+        menu = tk.Menu(root)
+        self.file_menu = tk.Menu(menu, tearoff=False)
+        self.file_menu.add_command(label="Open…", command=self.open_file)
+        self.file_menu.add_command(label="Save…", command=self.save_file)
+        menu.add_cascade(label="File", menu=self.file_menu)
+        root.configure(menu=menu)
         style = ttk.Style(root)
         style.theme_use("clam")
         style.configure("TFrame", background="white")
@@ -195,6 +202,37 @@ class BeamApp:
         box = ttk.Combobox(row, textvariable=self.variables[key], values=options, state="readonly", width=23)
         box.pack(side="right")
         return box
+
+    def open_file(self):
+        path = filedialog.askopenfilename(parent=self.root, filetypes=[("Beam design", "*.json")])
+        if path:
+            try:
+                design = open_design(path)
+            except (OSError, ValueError, ArithmeticError, np.linalg.LinAlgError) as error:
+                messagebox.showerror("Could not open design", str(error), parent=self.root)
+                return
+            self.populate(design)
+            self.refresh()
+
+    def current_results(self):
+        if self.pending is not None:
+            self.refresh()
+        if self.analysis is None:
+            messagebox.showerror("Results unavailable", "Correct the highlighted input before continuing.",
+                                 parent=self.root)
+        return self.analysis
+
+    def save_file(self):
+        analysis = self.current_results()
+        if analysis is None:
+            return
+        path = filedialog.asksaveasfilename(parent=self.root, defaultextension=".json",
+                                           filetypes=[("Beam design", "*.json")])
+        if path:
+            try:
+                save_design(path, analysis)
+            except (OSError, ValueError) as error:
+                messagebox.showerror("Could not save design", str(error), parent=self.root)
 
     def scale_changed(self, value):
         if not getattr(self, "syncing_scale", False):
