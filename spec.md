@@ -424,3 +424,6 @@ This tool is for learning and preliminary calculations only; it does not provide
 - Start the app with `python app.py`. Keep calculations separately callable for validation.
 - Use the copied `index.html` as the reference for behavior and keep its original contents.
 - Record each stage and its results in `prompts.md` and commit each stage.
+
+### CSV export
+The Export CSV button writes UTF-8 CSV with columns for x (ft), V (kips), M (kip-ft), and downward deflection (in). Include both one-sided shear values in left-to-right order at interior point loads.

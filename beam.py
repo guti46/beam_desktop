@@ -236,7 +236,10 @@ class Analysis:
         points = {x for _, x in self.design.points if 0 < x < self.design.span}
         extrema = (self.shear, self.moment, self.maximum_deflection)
         grid = np.linspace(0, self.design.span, int(np.ceil(self.design.span * 4)) + 1)
-        positions = set(self.boundaries) | set(grid) | {peak.x for peak in extrema if peak.x is not None}
+        positions = set(self.boundaries)
+        for x in [*grid, *(peak.x for peak in extrema if peak.x is not None)]:
+            if all(abs(x - position) > 1e-10 for position in positions):
+                positions.add(x)
         for x in sorted(positions):
             if x in points:
                 yield (x, *self.sample(x, "left"))

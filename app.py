@@ -9,6 +9,7 @@ import numpy as np
 
 from beam import Analysis, CANTILEVER, Design, SECTIONS, SIMPLE
 from design_io import open_design, save_design
+from exports import export_csv
 
 
 NAVY = "#173655"
@@ -179,6 +180,11 @@ class BeamApp:
         self.apply_button = ttk.Button(self.results, text="Apply Recommendation", style="Primary.TButton",
                                        command=self.apply_recommendation)
         self.apply_button.pack(anchor="w", pady=6)
+        self.export_buttons = ttk.Frame(self.results)
+        self.export_buttons.pack(anchor="w")
+        self.csv_button = ttk.Button(self.export_buttons, text="Export CSV",
+                                     command=lambda: self.export_file("CSV results", ".csv", export_csv))
+        self.csv_button.pack(side="left", padx=(0, 6))
         self.load_summary = ttk.Label(self.results, justify="left")
         self.load_summary.pack(anchor="w", pady=4)
         self.hover = ttk.Label(self.results, text="Hover over a diagram to inspect values.")
@@ -233,6 +239,18 @@ class BeamApp:
                 save_design(path, analysis)
             except (OSError, ValueError) as error:
                 messagebox.showerror("Could not save design", str(error), parent=self.root)
+
+    def export_file(self, label, extension, writer):
+        analysis = self.current_results()
+        if analysis is None:
+            return
+        path = filedialog.asksaveasfilename(parent=self.root, defaultextension=extension,
+                                           filetypes=[(label, f"*{extension}")])
+        if path:
+            try:
+                writer(path, analysis)
+            except (OSError, ValueError) as error:
+                messagebox.showerror(f"Could not export {label}", str(error), parent=self.root)
 
     def scale_changed(self, value):
         if not getattr(self, "syncing_scale", False):
