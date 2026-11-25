@@ -1,25 +1,19 @@
 # BeamCheck Pro Desktop prompt log
 
-## Planning and guidance
+## How I led the project
 
-| Request or input | What it changed | Outcome |
+I asked for a plan before any setup or coding. I wanted to see how my existing BeamCheck Pro calculator would become a desktop app, what information the assistant needed, and how we would verify it. I had the assistant refine the feature plan, then gave it the go-ahead to complete the project.
+
+## What I wanted from the build
+
+| My direction | What changed | Did it work? |
 |---|---|---|
-| I shared the assignment screenshots and asked for a plan before any setup or coding. I also asked what extra information would help. | We planned a separate Python/Tkinter project based on my existing BeamCheck Pro web app. The initial plan covered setup, a desktop spec, the base calculator, validation, feature exports, and submission. | The assistant kept the desktop project on hold and identified the missing part of Step 5. |
-| I sent the rest of Step 5 in a follow-up screenshot. | The plan now called for updating the spec, building the feature, trying it in the app, and rerunning the validation cases before moving on to the next feature. | The workflow was defined for Save/Open, CSV export, and the PDF calculation sheet. |
-| I told the assistant to do the whole assignment. | That authorized the implementation using the plan and the completed Step 5 instructions. | The assistant carried out the stages below and committed the work as it went. |
+| Use my existing BeamCheck Pro calculator as the reference. Put the Python version in its own `beam_desktop` project and update the spec before building. | Set up a separate Git repository and adapted the spec for Python and Tkinter. | Python, Tkinter, NumPy, and Matplotlib ran successfully. |
+| Get the calculator working before adding file features. Check the reactions, diagrams, bending, and deflection against the cases in my spec. | Built the calculator and an expected-versus-actual validation table. | All 103 comparisons across eight cases passed. Case 1 showed 10 kips at each support, 50 kip-ft at midspan, 17.96 ksi bending stress, and 0.61 in deflection. |
+| Work through the three desktop features in order. Update the spec, try each feature in the app, and rerun the beam checks before moving on. | Save/Open came first, followed by the Excel CSV and then the PDF calculation sheet. | All 103 comparisons passed again after each feature. |
+| Make sure Save/Open restores a design I can keep working on, including the support, span, material, section, deflection limit, and loads. | Added Save and Open to the File menu using JSON design files. | A non-default design reopened with the same settings and loads. An invalid file left the current design in place. |
+| Export position, shear, moment, and deflection in a CSV I can open in Excel. | Added the CSV button and included both shear values at an interior point load. | Excel opened all four columns. The midspan moment in Case 1 was 50 kip-ft, and the point-load check preserved the shear jump. |
+| Put the beam inputs at the top of the calculation sheet and make the plots and pass/fail checks easy to read. | Added the PDF export with inputs, reactions, diagrams, and bending and deflection checks. | The assistant reviewed the rendered Case 1 sheet and a sheet with 20 loads. |
+| Finish with a README, a public GitHub repository, and a ZIP I can turn in. | Documented how to install and run the app, published the commits, and packaged the project. | The repository was verified and the ZIP passed its integrity check. |
 
-## Implementation checkpoints after my go-ahead
-
-| Stage | Change | Verification |
-|---|---|---|
-| Setup and spec | Created the separate repo, copied the original web app and spec, and revised the spec for Tkinter. | Verified Python, Tkinter, NumPy, and Matplotlib. |
-| Base calculator | Built the desktop beam inputs, plots, bending and deflection checks, and section recommendation. | Checked the Case 1 display and input controls in Tkinter. All 103 comparisons across eight spec cases passed. |
-| Save/Open | Added the feature to the spec and implemented JSON design files in the File menu. | Saved and reopened a non-default design. An invalid file left the active design in place. All 103 comparisons still passed. |
-| CSV export | Added the feature to the spec and exported position, shear, moment, and deflection. | Opened Case 1 in Excel and verified four columns and the 50 kip-ft midspan moment. Checked both sides of an interior point-load shear jump. All 103 comparisons still passed. |
-| Calculation PDF | Added the feature to the spec and exported the inputs, reactions, diagrams, and checks. | Reviewed rendered PDFs for Case 1 and a 20-load design. All 103 comparisons still passed. |
-| Packaging | Wrote the README, created the ZIP, and published the original seven project commits. | Verified the public GitHub repo and checked ZIP integrity. |
-
-## Submission follow-up
-
-- I asked about the time spent and whether the project was ready to submit. The assistant confirmed the GitHub repo and ZIP were ready and identified my personal Case 1 check and Learning Suite upload as the remaining steps.
-- I asked to revise this log so the planning exchange, the follow-up screenshot, and the build checkpoints were easier to see. The updated log records that sequence and the verification results.
+My follow-up focused on what was ready to turn in. The assistant confirmed the ZIP and repository link and identified the personal Case 1 check and Learning Suite upload as my remaining steps. I then asked for this log to spell out my direction and the result of each stage.
