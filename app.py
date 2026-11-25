@@ -93,6 +93,38 @@ def draw_diagrams(axes, analysis):
     axes[-1].set_xlabel("Distance from left end (ft)", fontsize=8)
 
 
+def export_pdf(path, analysis):
+    design = analysis.design
+    page = Figure(figsize=(8.5, 11), facecolor="white")
+    page.text(.08, .954, "BeamCheck Pro", fontsize=24, weight="bold", color=NAVY)
+    page.text(.08, .927, "BEAM CALCULATION SHEET", fontsize=10, weight="bold", color=COLORS[1])
+    page.text(.08, .892, "Inputs", fontsize=12, weight="bold", color=NAVY)
+    settings = (f"{design.support}  |  {fmt(design.span)} ft span  |  {design.material}  |  "
+                f"{design.section}  |  L/{design.limit}")
+    page.text(.08, .87, settings, fontsize=9, color=NAVY)
+    labels = load_labels(design)
+    left = labels[:10]
+    right = labels[10:]
+    for x, column in ((.08, left), (.52, right)):
+        for index, label in enumerate(column):
+            page.text(x, .848 - index * .015, label, fontsize=8.5, color=NAVY)
+
+    header_end = .848 - len(left) * .015
+    axes = page.add_gridspec(4, 1, left=.10, right=.92, top=header_end - .019, bottom=.217,
+                             hspace=.68, height_ratios=(.94, 1, 1, 1)).subplots()
+    draw_beam(axes[0], analysis)
+    draw_diagrams(axes[1:], analysis)
+    overall = "PASS" if analysis.bending.status == analysis.deflection.status == "PASS" else "FAIL"
+    page.text(.08, .151, f"Design checks  |  {overall}", fontsize=12, weight="bold",
+              color="#216346" if overall == "PASS" else "#a22a31")
+    page.text(.08, .124, check_text("Bending", analysis.bending, "ksi"), fontsize=9,
+              color=NAVY, va="top", linespacing=1.6)
+    page.text(.52, .124, check_text("Deflection", analysis.deflection, "in"), fontsize=9,
+              color=NAVY, va="top", linespacing=1.6)
+    page.text(.08, .06, "Preliminary classroom calculation  |  Vertical loads only", fontsize=8, color="#56677b")
+    page.savefig(path, format="pdf", metadata={"Title": "BeamCheck Pro calculation sheet"})
+
+
 def scroll_panel(parent):
     frame = ttk.Frame(parent)
     canvas = tk.Canvas(frame, highlightthickness=0, background="#ffffff")
@@ -185,6 +217,9 @@ class BeamApp:
         self.csv_button = ttk.Button(self.export_buttons, text="Export CSV",
                                      command=lambda: self.export_file("CSV results", ".csv", export_csv))
         self.csv_button.pack(side="left", padx=(0, 6))
+        self.pdf_button = ttk.Button(self.export_buttons, text="Export Calculation PDF",
+                                     command=lambda: self.export_file("Calculation sheet", ".pdf", export_pdf))
+        self.pdf_button.pack(side="left")
         self.load_summary = ttk.Label(self.results, justify="left")
         self.load_summary.pack(anchor="w", pady=4)
         self.hover = ttk.Label(self.results, text="Hover over a diagram to inspect values.")

@@ -427,3 +427,6 @@ This tool is for learning and preliminary calculations only; it does not provide
 
 ### CSV export
 The Export CSV button writes UTF-8 CSV with columns for x (ft), V (kips), M (kip-ft), and downward deflection (in). Include both one-sided shear values in left-to-right order at interior point loads.
+
+### PDF calculation sheet
+The Export Calculation PDF button writes a US Letter calculation sheet with beam settings and applied loads at the top. Include the beam drawing and reactions, shear, moment and deflection plots, and bending and deflection checks with actual and allowable values, utilization, margin, and PASS/FAIL.
